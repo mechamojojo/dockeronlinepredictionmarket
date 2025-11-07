@@ -2,10 +2,11 @@ services:
   - type: web
     name: cdp-sdk-example
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
     # PORT é definido automaticamente pelo Render
+    # tsx está em dependencies e será usado para executar TypeScript diretamente
 
