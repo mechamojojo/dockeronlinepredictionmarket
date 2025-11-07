@@ -23,7 +23,14 @@ app.use((req, res, next) => {
 const apiKeyId = process.env.CDP_API_KEY_ID;
 const apiKeySecret = process.env.CDP_API_KEY_SECRET;
 const walletSecret = process.env.CDP_WALLET_SECRET;
-const engineUrl = process.env.THIRDWEB_ENGINE_URL || process.env.CDP_ENGINE_URL;
+
+// Detectar a URL do Engine (este servidor)
+// Prioridade: variável de ambiente > URL do Render > null (usar padrão)
+const engineUrl =
+  process.env.THIRDWEB_ENGINE_URL ||
+  process.env.CDP_ENGINE_URL ||
+  process.env.RENDER_EXTERNAL_URL ||
+  null;
 
 if (!apiKeyId || !apiKeySecret) {
   console.error("❌ ERROR: CDP API keys are required!");
@@ -32,9 +39,6 @@ if (!apiKeyId || !apiKeySecret) {
   console.error("  - CDP_API_KEY_SECRET");
   console.error(
     "  - CDP_WALLET_SECRET (optional, but required for write operations)"
-  );
-  console.error(
-    "  - THIRDWEB_ENGINE_URL (optional, if using custom Thirdweb Engine)"
   );
   console.error(
     "\nFor more info: https://github.com/coinbase/cdp-sdk/blob/main/typescript/README.md#api-keys"
@@ -52,19 +56,20 @@ if (walletSecret) {
   cdpOptions.walletSecret = walletSecret;
 }
 
-// Se uma URL do Engine for fornecida, adicionar à configuração
+// Configurar Engine URL se disponível
+// Se este servidor É o Engine, use a própria URL do Render
 if (engineUrl) {
-  console.log(`🔧 Using custom Engine URL: ${engineUrl}`);
+  console.log(`🔧 Engine URL: ${engineUrl}`);
   cdpOptions.engineUrl = engineUrl;
+} else {
+  console.log("ℹ️  No Engine URL configured - using CDP SDK default");
 }
 
 const cdp = new CdpClient(cdpOptions);
 
 console.log("✅ CDP Client configured successfully");
 if (engineUrl) {
-  console.log(`✅ Engine URL configured: ${engineUrl}`);
-} else {
-  console.log("ℹ️  Using default Engine configuration");
+  console.log(`✅ Engine URL: ${engineUrl}`);
 }
 
 // Endpoint raiz
@@ -200,11 +205,29 @@ app.post("/api/wait-for-user-operation", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
 
+// Detectar URL do servidor
+const serverUrl =
+  process.env.RENDER_EXTERNAL_URL ||
+  process.env.RAILWAY_PUBLIC_DOMAIN ||
+  (process.env.NODE_ENV === "production"
+    ? null
+    : `http://localhost:${PORT}`);
+
 app.listen(Number(PORT), HOST, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  if (process.env.RENDER_EXTERNAL_URL) {
-    console.log(`🌍 Online: ${process.env.RENDER_EXTERNAL_URL}`);
+  if (serverUrl) {
+    console.log(`🌍 URL pública: ${serverUrl}`);
+    console.log(`🔧 Esta URL deve ser configurada como THIRDWEB_ENGINE_URL`);
   } else {
     console.log(`📍 Local: http://localhost:${PORT}`);
   }
+  
+  // Mostrar informações importantes
+  console.log("\n📋 Configuração do Engine:");
+  if (engineUrl) {
+    console.log(`   ✅ Engine URL: ${engineUrl}`);
+  } else if (serverUrl) {
+    console.log(`   ⚠️  Configure THIRDWEB_ENGINE_URL=${serverUrl} no Render`);
+  }
+  console.log("");
 });

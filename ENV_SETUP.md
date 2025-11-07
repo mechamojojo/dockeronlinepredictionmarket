@@ -5,10 +5,12 @@ O CDP SDK requer chaves de API para funcionar. Você precisa configurá-las no R
 ## 📋 Variáveis Necessárias
 
 ### Obrigatórias:
+
 - `CDP_API_KEY_ID` - Sua API Key ID do Coinbase Developer Platform
 - `CDP_API_KEY_SECRET` - Sua API Key Secret do Coinbase Developer Platform
 
 ### Opcional (mas recomendado):
+
 - `CDP_WALLET_SECRET` - Wallet secret para operações de escrita
 - `THIRDWEB_ENGINE_URL` ou `CDP_ENGINE_URL` - URL do Thirdweb Engine (se necessário)
 
@@ -32,18 +34,22 @@ O CDP SDK requer chaves de API para funcionar. Você precisa configurá-las no R
 4. Adicione cada variável:
 
    **Variável 1:**
+
    - Key: `CDP_API_KEY_ID`
    - Value: `sua-api-key-id-aqui`
 
    **Variável 2:**
+
    - Key: `CDP_API_KEY_SECRET`
    - Value: `sua-api-key-secret-aqui`
 
    **Variável 3 (Opcional):**
+
    - Key: `CDP_WALLET_SECRET`
    - Value: `seu-wallet-secret-aqui`
 
    **Variável 4 (Opcional - apenas se necessário):**
+
    - Key: `THIRDWEB_ENGINE_URL`
    - Value: `https://seu-engine.thirdweb.com`
 
@@ -60,6 +66,7 @@ Após adicionar as variáveis:
 ## 🔒 Segurança
 
 ⚠️ **IMPORTANTE:**
+
 - **NUNCA** commite as chaves de API no código
 - **NUNCA** adicione arquivos `.env` no repositório
 - Use apenas variáveis de ambiente no Render
@@ -81,7 +88,7 @@ Após configurar, o servidor deve iniciar sem erros. Você verá:
 ```
 
 Se ainda houver erros, verifique:
+
 1. As variáveis estão corretas no Render
 2. Não há espaços extras nos valores
 3. Você fez um novo deploy após adicionar as variáveis
-
