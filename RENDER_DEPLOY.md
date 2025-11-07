@@ -101,20 +101,33 @@ O Render detectará as mudanças e fará um novo deploy automaticamente!
 
 ## 🐛 Troubleshooting
 
+### Erro: "Cannot find module '/opt/render/project/src/index.js'"
+✅ **RESOLVIDO!** Este erro foi corrigido movendo `tsx` e `typescript` para `dependencies`.
+- O projeto usa TypeScript e precisa do `tsx` para executar
+- Certifique-se de que o código mais recente está no GitHub
+- Faça um novo deploy no Render
+
 ### Erro de Build
 - Verifique os logs no Render
 - Certifique-se de que todas as dependências estão no `package.json`
-- Verifique se o Node.js está na versão correta
+- Verifique se o Node.js está na versão correta (20+)
+- Certifique-se de que `tsx` está em `dependencies`, não em `devDependencies`
 
 ### Servidor não inicia
 - Verifique os logs para ver o erro
 - Certifique-se de que a porta está configurada como `process.env.PORT`
 - Verifique se o comando `npm start` está funcionando localmente
+- Teste localmente antes de fazer deploy: `npm start`
 
 ### Erro 503 ou Timeout
 - No plano gratuito, o servidor "dorme" após 15 minutos de inatividade
 - A primeira requisição após dormir pode demorar ~30 segundos para acordar
 - Considere usar um serviço de "keep-alive" ou upgrade para um plano pago
+
+### Erro: "tsx: command not found"
+- Certifique-se de que `tsx` está em `dependencies` no `package.json`
+- O build command deve ser: `npm install --production=false`
+- Ou simplesmente: `npm install` (sem flag de production)
 
 ## 📝 Checklist
 
