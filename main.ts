@@ -23,24 +23,49 @@ app.use((req, res, next) => {
 const apiKeyId = process.env.CDP_API_KEY_ID;
 const apiKeySecret = process.env.CDP_API_KEY_SECRET;
 const walletSecret = process.env.CDP_WALLET_SECRET;
+const engineUrl = process.env.THIRDWEB_ENGINE_URL || process.env.CDP_ENGINE_URL;
 
 if (!apiKeyId || !apiKeySecret) {
   console.error("❌ ERROR: CDP API keys are required!");
   console.error("Please set the following environment variables:");
   console.error("  - CDP_API_KEY_ID");
   console.error("  - CDP_API_KEY_SECRET");
-  console.error("  - CDP_WALLET_SECRET (optional, but required for write operations)");
-  console.error("\nFor more info: https://github.com/coinbase/cdp-sdk/blob/main/typescript/README.md#api-keys");
+  console.error(
+    "  - CDP_WALLET_SECRET (optional, but required for write operations)"
+  );
+  console.error(
+    "  - THIRDWEB_ENGINE_URL (optional, if using custom Thirdweb Engine)"
+  );
+  console.error(
+    "\nFor more info: https://github.com/coinbase/cdp-sdk/blob/main/typescript/README.md#api-keys"
+  );
   process.exit(1);
 }
 
-const cdp = new CdpClient({
+// Configurar opções do CDP Client
+const cdpOptions: any = {
   apiKeyId,
   apiKeySecret,
-  ...(walletSecret && { walletSecret })
-});
+};
+
+if (walletSecret) {
+  cdpOptions.walletSecret = walletSecret;
+}
+
+// Se uma URL do Engine for fornecida, adicionar à configuração
+if (engineUrl) {
+  console.log(`🔧 Using custom Engine URL: ${engineUrl}`);
+  cdpOptions.engineUrl = engineUrl;
+}
+
+const cdp = new CdpClient(cdpOptions);
 
 console.log("✅ CDP Client configured successfully");
+if (engineUrl) {
+  console.log(`✅ Engine URL configured: ${engineUrl}`);
+} else {
+  console.log("ℹ️  Using default Engine configuration");
+}
 
 // Endpoint raiz
 app.get("/", (req, res) => {

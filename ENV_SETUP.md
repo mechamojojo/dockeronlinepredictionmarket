@@ -10,6 +10,7 @@ O CDP SDK requer chaves de API para funcionar. Você precisa configurá-las no R
 
 ### Opcional (mas recomendado):
 - `CDP_WALLET_SECRET` - Wallet secret para operações de escrita
+- `THIRDWEB_ENGINE_URL` ou `CDP_ENGINE_URL` - URL do Thirdweb Engine (se necessário)
 
 ## 🚀 Como Configurar no Render
 
@@ -42,6 +43,10 @@ O CDP SDK requer chaves de API para funcionar. Você precisa configurá-las no R
    - Key: `CDP_WALLET_SECRET`
    - Value: `seu-wallet-secret-aqui`
 
+   **Variável 4 (Opcional - apenas se necessário):**
+   - Key: `THIRDWEB_ENGINE_URL`
+   - Value: `https://seu-engine.thirdweb.com`
+
 5. Clique em **"Save Changes"**
 
 ### 3. Fazer Novo Deploy
@@ -64,6 +69,7 @@ Após adicionar as variáveis:
 
 - [CDP SDK Documentation](https://github.com/coinbase/cdp-sdk/blob/main/typescript/README.md#api-keys)
 - [Coinbase Developer Platform](https://portal.cdp.coinbase.com/)
+- [Thirdweb Engine Setup](./THIRDWEB_ENGINE.md) - Se você receber erro sobre Engine
 
 ## ✅ Verificação
 
