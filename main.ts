@@ -64,6 +64,7 @@ app.post("/api/create-smart-account", async (req, res) => {
 app.post("/api/send-user-operation", async (req, res) => {
   try {
     const {
+      smartAccountAddress,
       ownerAddress,
       to = "0x0000000000000000000000000000000000000000",
       value = "0",
@@ -71,7 +72,11 @@ app.post("/api/send-user-operation", async (req, res) => {
       network = "base-sepolia",
     } = req.body;
 
-    // Criar owner e smart account
+    // NOTA: Este exemplo cria uma nova conta a cada requisição
+    // Para produção, você deveria:
+    // 1. Receber smartAccountAddress e reutilizar a conta existente
+    // 2. Ou armazenar as chaves de forma segura para reutilizar
+    // Por enquanto, sempre cria uma nova conta para simplicidade
     const owner = await cdp.evm.createAccount({});
     const smartAccount = await cdp.evm.createSmartAccount({ owner });
 
@@ -147,8 +152,13 @@ app.post("/api/wait-for-user-operation", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "0.0.0.0";
 
-app.listen(PORT, () => {
+app.listen(Number(PORT), HOST, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📍 Local: http://localhost:${PORT}`);
+  if (process.env.RENDER_EXTERNAL_URL) {
+    console.log(`🌍 Online: ${process.env.RENDER_EXTERNAL_URL}`);
+  } else {
+    console.log(`📍 Local: http://localhost:${PORT}`);
+  }
 });

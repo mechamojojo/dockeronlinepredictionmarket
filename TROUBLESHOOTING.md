@@ -9,17 +9,21 @@ Se o deploy falhou, siga estes passos:
 No painel do Render, vá em **Settings** → **Build & Deploy**:
 
 **Build Command:**
+
 ```
 npm install
 ```
+
 Ou deixe **vazio** (Render faz npm install automaticamente)
 
 **Start Command:**
+
 ```
 npm start
 ```
 
 **Node Version:**
+
 - Deixe **automático** ou escolha **20.x**
 
 ### 2. Verificar Logs
@@ -94,4 +98,3 @@ Se o deploy automático não funcionar:
 ## 💡 Dica
 
 Se continuar falhando, tente criar um novo serviço no Render do zero, em vez de editar o existente.
-
