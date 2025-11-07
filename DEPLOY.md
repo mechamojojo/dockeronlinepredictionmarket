@@ -1,223 +1,43 @@
-# 🚀 Guia de Deploy Online
+# 🚀 Guia de Deploy no Render.com
 
-Este guia mostra como colocar seu servidor CDP SDK online para acesso de qualquer lugar.
+## Passo a Passo
 
-## 📋 Opções de Deploy
+### 1. Enviar Código para o GitHub
 
-### 1. 🆓 Render.com (Recomendado - Grátis)
+```bash
+git add .
+git commit -m "Add API server for Render deployment"
+git push
+```
 
-**Vantagens:**
-- ✅ Grátis para começar
-- ✅ Deploy automático via GitHub
-- ✅ SSL/HTTPS automático
-- ✅ Fácil configuração
+### 2. Configurar no Render.com
 
-**Passos:**
+1. **Acesse [render.com](https://render.com)** e faça login
+2. **Clique em "New +"** → **"Web Service"**
+3. **Conecte seu repositório:**
+   - Selecione `mechamojojo/dockeronlinepredictionmarket`
+   - Ou clique em "Configure account" se não aparecer
 
-1. **Crie uma conta em [Render.com](https://render.com)**
+### 3. Configurações do Serviço
 
-2. **Faça push do código para o GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin SEU_REPOSITORIO_GIT
-   git push -u origin main
-   ```
+**Nome:**
+- `cdp-sdk-api` (ou qualquer nome)
 
-3. **No Render:**
-   - Clique em "New +" → "Web Service"
-   - Conecte seu repositório GitHub
-   - Configurações:
-     - **Name:** `cdp-sdk-example`
-     - **Environment:** `Node`
-     - **Build Command:** `npm install`
-     - **Start Command:** `npm start`
-     - **Plan:** `Free`
+**Build & Deploy:**
+- **Runtime:** `Node` (já selecionado)
+- **Build Command:** `npm install`
+- **Start Command:** `npm start`
 
-4. **Variáveis de Ambiente (se necessário):**
-   - Adicione no painel do Render: `Environment` → `Add Environment Variable`
-   - Exemplo: `NODE_ENV=production`
+**Plan:**
+- Selecione **"Free"**
 
-5. **Deploy:**
-   - Render fará o deploy automaticamente
-   - Você receberá uma URL como: `https://cdp-sdk-example.onrender.com`
+### 4. Criar e Deploy
 
----
+1. Clique em **"Create Web Service"**
+2. Aguarde 2-5 minutos para o deploy
+3. Você receberá uma URL como: `https://cdp-sdk-api.onrender.com`
 
-### 2. 🚂 Railway.app (Recomendado - Grátis)
-
-**Vantagens:**
-- ✅ Grátis com $5 de crédito mensal
-- ✅ Deploy muito rápido
-- ✅ Integração com GitHub
-- ✅ SSL automático
-
-**Passos:**
-
-1. **Crie uma conta em [Railway.app](https://railway.app)**
-
-2. **Faça push do código para o GitHub**
-
-3. **No Railway:**
-   - Clique em "New Project"
-   - Selecione "Deploy from GitHub repo"
-   - Escolha seu repositório
-   - Railway detectará automaticamente o Node.js
-
-4. **Configurações automáticas:**
-   - Railway usa o `Procfile` que já está configurado
-   - A porta será definida automaticamente via `$PORT`
-
-5. **Deploy:**
-   - Railway fará o deploy automaticamente
-   - Você receberá uma URL como: `https://cdp-sdk-example.up.railway.app`
-
----
-
-### 3. ☁️ Heroku (Clássico)
-
-**Vantagens:**
-- ✅ Confiável e estável
-- ✅ Ecossistema maduro
-- ⚠️ Plano gratuito removido (pago)
-
-**Passos:**
-
-1. **Instale o Heroku CLI:**
-   ```bash
-   # macOS
-   brew tap heroku/brew && brew install heroku
-   
-   # Ou baixe de: https://devcenter.heroku.com/articles/heroku-cli
-   ```
-
-2. **Login:**
-   ```bash
-   heroku login
-   ```
-
-3. **Crie o app:**
-   ```bash
-   heroku create cdp-sdk-example
-   ```
-
-4. **Deploy:**
-   ```bash
-   git push heroku main
-   ```
-
-5. **Acesse:**
-   ```bash
-   heroku open
-   ```
-
----
-
-### 4. 🧪 Ngrok (Para Testes Rápidos)
-
-**Vantagens:**
-- ✅ Instantâneo
-- ✅ Ideal para testes e desenvolvimento
-- ⚠️ URL temporária (muda a cada reinício)
-
-**Passos:**
-
-1. **Instale o ngrok:**
-   ```bash
-   # macOS
-   brew install ngrok
-   
-   # Ou baixe de: https://ngrok.com/download
-   ```
-
-2. **Inicie seu servidor:**
-   ```bash
-   npm start
-   ```
-
-3. **Em outro terminal, execute:**
-   ```bash
-   ngrok http 3000
-   ```
-
-4. **Você receberá uma URL pública:**
-   ```
-   Forwarding  https://abc123.ngrok.io -> http://localhost:3000
-   ```
-
----
-
-### 5. 🌐 LocalTunnel (Alternativa Grátis ao Ngrok)
-
-**Vantagens:**
-- ✅ Grátis e open source
-- ✅ Sem necessidade de conta
-- ⚠️ URL pode mudar
-
-**Passos:**
-
-1. **Instale:**
-   ```bash
-   npm install -g localtunnel
-   ```
-
-2. **Inicie seu servidor:**
-   ```bash
-   npm start
-   ```
-
-3. **Em outro terminal:**
-   ```bash
-   npm run tunnel
-   # Ou diretamente:
-   lt --port 3000
-   ```
-
-4. **Você receberá uma URL pública temporária**
-
----
-
-## 🔒 Configuração de Segurança
-
-### Para Produção, adicione:
-
-1. **Autenticação:**
-   ```typescript
-   // Adicione middleware de autenticação
-   app.use('/api', authenticateToken);
-   ```
-
-2. **Rate Limiting:**
-   ```bash
-   npm install express-rate-limit
-   ```
-
-3. **Variáveis de Ambiente:**
-   - Nunca commite arquivos `.env`
-   - Use variáveis de ambiente da plataforma
-
-4. **HTTPS:**
-   - Render, Railway e Heroku fornecem HTTPS automaticamente
-
----
-
-## 📝 Checklist de Deploy
-
-- [ ] Código no GitHub
-- [ ] Variáveis de ambiente configuradas
-- [ ] Testes locais passando
-- [ ] `.env` no `.gitignore`
-- [ ] `Procfile` criado (para Heroku/Railway)
-- [ ] `render.yaml` criado (para Render)
-- [ ] Servidor ouvindo na porta `process.env.PORT`
-- [ ] CORS configurado (se necessário)
-
----
-
-## 🧪 Testando o Deploy
-
-Após o deploy, teste os endpoints:
+### 5. Testar
 
 ```bash
 # Health check
@@ -228,44 +48,42 @@ curl -X POST https://seu-app.onrender.com/api/create-smart-account \
   -H "Content-Type: application/json"
 ```
 
----
+## ✅ Pronto!
 
-## 🆘 Troubleshooting
+Seu servidor estará online e você poderá usar na sua aplicação!
 
-### Erro: "Port already in use"
-- Certifique-se de usar `process.env.PORT` no código
-- Plataformas cloud definem essa variável automaticamente
+## 📝 Exemplo de Uso na Aplicação
 
-### Erro: "Build failed"
-- Verifique se todas as dependências estão no `package.json`
-- Certifique-se de que o Node.js está na versão correta
+```javascript
+// Criar smart account
+const createAccount = async () => {
+  const response = await fetch('https://seu-app.onrender.com/api/create-smart-account', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+  });
+  const data = await response.json();
+  console.log('Smart Account:', data.smartAccountAddress);
+  return data;
+};
 
-### Erro: "Application error"
-- Verifique os logs da plataforma
-- Certifique-se de que o servidor inicia corretamente
-- Verifique se não há erros no código
+// Enviar user operation
+const sendOperation = async (to, value) => {
+  const response = await fetch('https://seu-app.onrender.com/api/send-user-operation', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      to,
+      value,
+      network: 'base-sepolia'
+    })
+  });
+  return await response.json();
+};
+```
 
----
+## ⚠️ Importante
 
-## 📚 Recursos Úteis
-
-- [Render Docs](https://render.com/docs)
-- [Railway Docs](https://docs.railway.app)
-- [Heroku Docs](https://devcenter.heroku.com)
-- [Ngrok Docs](https://ngrok.com/docs)
-
----
-
-## 🎯 Recomendação
-
-Para começar rápido: **Use Render.com** ou **Railway.app**
-- Ambos são grátis
-- Deploy automático via GitHub
-- SSL/HTTPS incluído
-- Fácil configuração
-
-Para testes rápidos: **Use ngrok** ou **localtunnel**
-- Instantâneo
-- Sem configuração complexa
-- Ideal para desenvolvimento
+- No plano gratuito, o servidor pode "dormir" após 15 minutos sem uso
+- A primeira requisição após dormir pode levar ~30 segundos
+- Para produção, considere um plano pago ou use um serviço de keep-alive
 
