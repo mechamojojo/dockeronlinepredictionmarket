@@ -57,12 +57,15 @@ if (walletSecret) {
 }
 
 // Configurar Engine URL se disponível
-// Se este servidor É o Engine, use a própria URL do Render
+// NOTA: Se você está usando Thirdweb e configurou a URL do servidor na Thirdweb,
+// você pode não precisar configurar engineUrl aqui. Mas se o CDP SDK precisar,
+// use a própria URL do servidor.
 if (engineUrl) {
-  console.log(`🔧 Engine URL: ${engineUrl}`);
+  console.log(`🔧 Engine URL configurada: ${engineUrl}`);
   cdpOptions.engineUrl = engineUrl;
 } else {
-  console.log("ℹ️  No Engine URL configured - using CDP SDK default");
+  console.log("ℹ️  Engine URL não configurada - usando padrão do CDP SDK");
+  console.log("💡 Se receber erro sobre Engine, configure THIRDWEB_ENGINE_URL no Render");
 }
 
 const cdp = new CdpClient(cdpOptions);
@@ -209,9 +212,7 @@ const HOST = process.env.HOST || "0.0.0.0";
 const serverUrl =
   process.env.RENDER_EXTERNAL_URL ||
   process.env.RAILWAY_PUBLIC_DOMAIN ||
-  (process.env.NODE_ENV === "production"
-    ? null
-    : `http://localhost:${PORT}`);
+  (process.env.NODE_ENV === "production" ? null : `http://localhost:${PORT}`);
 
 app.listen(Number(PORT), HOST, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
@@ -221,7 +222,7 @@ app.listen(Number(PORT), HOST, () => {
   } else {
     console.log(`📍 Local: http://localhost:${PORT}`);
   }
-  
+
   // Mostrar informações importantes
   console.log("\n📋 Configuração do Engine:");
   if (engineUrl) {
