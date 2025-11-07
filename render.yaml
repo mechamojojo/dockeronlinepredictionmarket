@@ -3,7 +3,7 @@ services:
     name: cdp-sdk-api
     env: node
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: npx tsx main.ts
     envVars:
       - key: NODE_ENV
         value: production
