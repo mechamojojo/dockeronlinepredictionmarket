@@ -50,11 +50,12 @@ app.post("/api/create-smart-account", async (req, res) => {
       ownerAddress: owner.address,
       smartAccountAddress: smartAccount.address,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error creating smart account:", error);
+    const message = error instanceof Error ? error.message : String(error);
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: message,
     });
   }
 });
@@ -74,13 +75,15 @@ app.post("/api/send-user-operation", async (req, res) => {
     const owner = await cdp.evm.createAccount({});
     const smartAccount = await cdp.evm.createSmartAccount({ owner });
 
+    const callValue = parseEther(value);
     const result = await cdp.evm.sendUserOperation({
       smartAccount,
       network,
+      // @ts-ignore
       calls: [
         {
           to,
-          value: parseEther(value),
+          value: callValue,
           data,
         },
       ],
@@ -93,11 +96,12 @@ app.post("/api/send-user-operation", async (req, res) => {
       smartAccountAddress: smartAccount.address,
       ownerAddress: owner.address,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error sending user operation:", error);
+    const message = error instanceof Error ? error.message : String(error);
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: message,
     });
   }
 });
@@ -132,11 +136,12 @@ app.post("/api/wait-for-user-operation", async (req, res) => {
         status: userOperation.status,
       });
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error waiting for user operation:", error);
+    const message = error instanceof Error ? error.message : String(error);
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: message,
     });
   }
 });

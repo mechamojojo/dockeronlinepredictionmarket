@@ -25,8 +25,15 @@ git push
 
 **Build & Deploy:**
 - **Runtime:** `Node` (já selecionado)
-- **Build Command:** `npm install`
+- **Build Command:** `npm install` (ou deixe vazio - Render faz npm install automaticamente)
 - **Start Command:** `npm start`
+
+**IMPORTANTE:** Se o deploy falhar, verifique manualmente no painel do Render:
+1. Vá em **Settings** → **Build & Deploy**
+2. Certifique-se de que:
+   - Build Command está como: `npm install` (ou vazio)
+   - Start Command está como: `npm start`
+3. Salve e faça um novo deploy
 
 **Plan:**
 - Selecione **"Free"**

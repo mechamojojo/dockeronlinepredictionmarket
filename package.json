@@ -2,9 +2,11 @@
   "name": "cdp-sdk-example",
   "version": "1.0.0",
   "description": "CDP SDK API Server",
-  "main": "main.ts",
+  "main": "dist/main.js",
   "scripts": {
-    "start": "tsx main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "start:dev": "tsx main.ts",
     "dev": "tsx watch main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +17,10 @@
   "dependencies": {
     "@coinbase/cdp-sdk": "^1.38.4",
     "dotenv": "^17.2.3",
-    "express": "^4.18.2",
-    "tsx": "^4.7.0"
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
   }
 }
