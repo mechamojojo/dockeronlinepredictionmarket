@@ -1,2 +1,2 @@
-web: npx tsx main.ts
+web: npm start
 

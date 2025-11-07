@@ -4,7 +4,9 @@
   "description": "CDP SDK API Server",
   "main": "main.ts",
   "scripts": {
-    "start": "npx tsx main.ts",
+    "start": "node server.js",
+    "start:direct": "npx tsx main.ts",
+    "start:tsx": "tsx main.ts",
     "dev": "tsx watch main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
