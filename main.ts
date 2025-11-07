@@ -19,7 +19,28 @@ app.use((req, res, next) => {
   next();
 });
 
-const cdp = new CdpClient();
+// Configurar CDP Client com variáveis de ambiente
+const apiKeyId = process.env.CDP_API_KEY_ID;
+const apiKeySecret = process.env.CDP_API_KEY_SECRET;
+const walletSecret = process.env.CDP_WALLET_SECRET;
+
+if (!apiKeyId || !apiKeySecret) {
+  console.error("❌ ERROR: CDP API keys are required!");
+  console.error("Please set the following environment variables:");
+  console.error("  - CDP_API_KEY_ID");
+  console.error("  - CDP_API_KEY_SECRET");
+  console.error("  - CDP_WALLET_SECRET (optional, but required for write operations)");
+  console.error("\nFor more info: https://github.com/coinbase/cdp-sdk/blob/main/typescript/README.md#api-keys");
+  process.exit(1);
+}
+
+const cdp = new CdpClient({
+  apiKeyId,
+  apiKeySecret,
+  ...(walletSecret && { walletSecret })
+});
+
+console.log("✅ CDP Client configured successfully");
 
 // Endpoint raiz
 app.get("/", (req, res) => {
