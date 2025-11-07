@@ -33,8 +33,9 @@ Preencha os seguintes campos:
 
 **Build & Deploy:**
 - **Runtime:** `Node` (já deve estar selecionado automaticamente)
-- **Build Command:** `npm install` (já está configurado no `render.yaml`)
+- **Build Command:** `npm install && npm run build` (já está configurado no `render.yaml`)
 - **Start Command:** `npm start` (já está configurado no `render.yaml`)
+- O projeto compila TypeScript para JavaScript durante o build
 
 **Plan:**
 - Selecione **"Free"** (plano gratuito)
@@ -102,8 +103,10 @@ O Render detectará as mudanças e fará um novo deploy automaticamente!
 ## 🐛 Troubleshooting
 
 ### Erro: "Cannot find module '/opt/render/project/src/index.js'"
-✅ **RESOLVIDO!** Este erro foi corrigido movendo `tsx` e `typescript` para `dependencies`.
-- O projeto usa TypeScript e precisa do `tsx` para executar
+✅ **RESOLVIDO!** Este erro foi corrigido compilando TypeScript para JavaScript.
+- O projeto agora compila TypeScript para JavaScript antes do deploy
+- Build command: `npm install && npm run build`
+- Start command: `npm start` (executa `node dist/main.js`)
 - Certifique-se de que o código mais recente está no GitHub
 - Faça um novo deploy no Render
 
