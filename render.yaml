@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: cdp-sdk-api
-    env: node
-    buildCommand: npm install
-    startCommand: npx tsx main.ts
-    envVars:
-      - key: NODE_ENV
-        value: production
